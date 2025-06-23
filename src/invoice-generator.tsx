@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Download, FileText, User, MapPin, CreditCard } from "lucide-react";
 import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
