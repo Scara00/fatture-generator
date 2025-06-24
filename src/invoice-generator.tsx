@@ -19,6 +19,7 @@ interface DatiFattura {
   quantitaServizi: string;
   prezzoUnitario: string;
   totaleServizi: string;
+  descrizione: string;
 
   // Totali
   totaleLordo: string;
@@ -45,6 +46,7 @@ export const InvoiceGenerator: React.FC = () => {
     totaleDovuto: "",
     ibanPaziente: "",
     dataSaldatura: "",
+    descrizione: "",
   });
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -105,6 +107,7 @@ export const InvoiceGenerator: React.FC = () => {
       totaleDovuto: "252,00€",
       ibanPaziente: "",
       dataSaldatura: new Date().toLocaleDateString("it-IT"),
+      descrizione: "",
     });
   };
 
@@ -148,6 +151,8 @@ export const InvoiceGenerator: React.FC = () => {
         TOTALE_DOVUTO: fattura.totaleDovuto,
         IBAN_PAZIENTE: fattura.ibanPaziente,
         DATA_SALDATURA: fattura.dataSaldatura,
+        DESCRIZIONE_PRESTAZIONE:
+          fattura.descrizione || "Prestazione fisioterapica",
       });
 
       // Genera il documento
@@ -218,9 +223,11 @@ export const InvoiceGenerator: React.FC = () => {
       {/* Contenitore della fattura */}
       <div className="bg-gray-50 p-6 rounded-lg border mb-8">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-medium flex items-center">
+          <h3
+            className="text-lg font-medium flex items-center"
+            style={{ color: "#1D4ED8" }}>
             <FileText className="mr-2" size={20} />
-            Fattura #{fattura.numeroFattura}
+            Dati Fattura #{fattura.numeroFattura}
           </h3>
         </div>
 
@@ -374,6 +381,20 @@ export const InvoiceGenerator: React.FC = () => {
               />
             </div>
           </div>
+          <div className="mt-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Descrizione prestazione
+            </label>
+            <textarea
+              value={fattura.descrizione}
+              onChange={(e) =>
+                aggiornaDatiFattura("descrizione", e.target.value)
+              }
+              style={{ minHeight: "124px" }}
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 "
+              placeholder="Descrizione della prestazione erogata"
+            />
+          </div>
         </div>
 
         {/* Totali (auto-calcolati) */}
@@ -428,7 +449,7 @@ export const InvoiceGenerator: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Data Saldatura
+                Data Pagamento
               </label>
               <input
                 type="text"
@@ -473,7 +494,7 @@ export const InvoiceGenerator: React.FC = () => {
         </button>
       </div>
 
-      <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded">
+      {/* <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded">
         <h4 className="font-medium text-yellow-800 mb-2">Note importanti:</h4>
         <ul className="text-sm text-yellow-700 space-y-1">
           <li>
@@ -492,7 +513,7 @@ export const InvoiceGenerator: React.FC = () => {
           </li>
           <li>• Gli IBAN vengono formattati automaticamente</li>
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 };
